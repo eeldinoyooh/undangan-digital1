@@ -38,10 +38,39 @@ export const RSVP: React.FC = () => {
   }, []);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // URL Script Google Apps Anda
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9DKI8wBoW4CUA999cN-AIi7BXMihBKLRR9_b-EXxEeyYa47OFVnUjVyUsJyIzws_4xg/exec';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  // Fetch wishes from Google Sheet on load
+  useEffect(() => {
+    const fetchWishes = async () => {
+      try {
+        const response = await fetch(SCRIPT_URL);
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setWishes(data);
+        }
+      } catch (error) {
+        console.error('Error fetching wishes:', error);
+        // Fallback to local storage if fetch fails
+        const savedWishes = localStorage.getItem('wedding-wishes');
+        if (savedWishes) {
+          setWishes(JSON.parse(savedWishes));
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWishes();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +78,7 @@ export const RSVP: React.FC = () => {
 
     try {
       // Submit to Google Spreadsheet
-      const response = await fetch('https://script.google.com/macros/s/AKfycby9DKI8wBoW4CUA999cN-AIi7BXMihBKLRR9_b-EXxEeyYa47OFVnUjVyUsJyIzws_4xg/exec', {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
@@ -63,7 +92,7 @@ export const RSVP: React.FC = () => {
         })
       });
 
-      // Also save to local state
+      // Create new wish object for immediate display
       const newWish: Wish = {
         id: Date.now(),
         name: form.name || 'Anonim',
@@ -72,11 +101,10 @@ export const RSVP: React.FC = () => {
         date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
       };
 
-      const updatedWishes = [newWish, ...wishes];
-      setWishes(updatedWishes);
+      // Update local state immediately
+      setWishes(prev => [newWish, ...prev]);
 
-      localStorage.setItem('wedding-wishes', JSON.stringify(updatedWishes));
-
+      // Reset form
       setForm({
         name: '',
         attendance: 'Hadir',
@@ -177,7 +205,9 @@ export const RSVP: React.FC = () => {
           <h3 className="font-script text-3xl text-center text-[#8B7355] mb-6">Doa Restu ({wishes.length})</h3>
 
           <div className="max-h-[500px] overflow-y-auto space-y-4 px-2 scrollbar-hide">
-            {wishes.length === 0 ? (
+            {isLoading ? (
+              <p className="text-center text-gray-500">Memuat ucapan...</p>
+            ) : wishes.length === 0 ? (
               <p className="text-center text-gray-700 italic">Belum ada ucapan. Jadilah yang pertama mengirim!</p>
             ) : (
               wishes.map((wish) => (
