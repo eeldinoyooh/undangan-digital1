@@ -1,6 +1,6 @@
 import React from 'react';
 import { weddingConfig } from '../config/wedding';
-import keduaMempelai from '../assets/kedua-mempelai.png';
+import keduaMempelai from '../asset/foto/kedua_mempelai.png';
 
 export const Closing: React.FC = () => {
     return (
