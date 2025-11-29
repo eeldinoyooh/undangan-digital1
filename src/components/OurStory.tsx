@@ -5,19 +5,19 @@ import keduaMempelai from '../asset/foto/kedua_mempelai.png';
 
 const stories = [
   {
-    year: "2018",
+    year: "2021",
     title: "Pertama Bertemu",
-    description: "Kami bertemu pertama kali di sebuah kedai kopi di Jakarta Selatan. Secangkir latte menjadi saksi awal perkenalan kami yang canggung namun berkesan."
+    description: "Kami pertama kali berkenalan melalui salah satu sosmed di tahun 2021. Kami bertemu di sebuah tempat. Meski hanya singkat, kami merasa saling tertarik dan saling ingin mengenal lebih lanjut satu sama lain. Sejak itu kami mulai semakin dekat. "
   },
   {
-    year: "2020",
+    year: "2022",
     title: "Menjalin Kasih",
-    description: "Setelah 2 tahun berteman dekat, kami memutuskan untuk berkomitmen. Menjalani hari-hari penuh tawa dan saling mendukung satu sama lain."
+    description: "Di akhir tahun 2021 kami mulai membangun hubungan yang erat. Kami saling mendukung dan tumbuh bersama, melalui berbagai tantangan dan rintangan bersama."
   },
   {
     year: "2024",
     title: "Lamaran",
-    description: `Di bawah matahari terbenam pantai Bali, ${weddingConfig.groomName} memberanikan diri untuk meminta ${weddingConfig.brideName} menjadi pendamping hidupnya selamanya. She said Yes!`
+    description: "Dan di tahun ini 2025, kami memutuskan untuk mengikat janji suci dalam pernikahan. Dalam momen penuh cinta dan haru ini, kami melangkah ke jenjang hidup baru, siap menghadapi masa depan bersama dengan saling cinta dan dukungan satu sama lain."
   }
 ];
 
