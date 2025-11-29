@@ -10,13 +10,13 @@ const stories = [
     description: "Kami pertama kali berkenalan melalui salah satu sosmed di tahun 2021. Kami bertemu di sebuah tempat. Meski hanya singkat, kami merasa saling tertarik dan saling ingin mengenal lebih lanjut satu sama lain. Sejak itu kami mulai semakin dekat. "
   },
   {
-    year: "2022",
+    year: "2021",
     title: "Menjalin Kasih",
     description: "Di akhir tahun 2021 kami mulai membangun hubungan yang erat. Kami saling mendukung dan tumbuh bersama, melalui berbagai tantangan dan rintangan bersama."
   },
   {
-    year: "2024",
-    title: "Lamaran",
+    year: "2025",
+    title: "Lamaran dan Menikah",
     description: "Dan di tahun ini 2025, kami memutuskan untuk mengikat janji suci dalam pernikahan. Dalam momen penuh cinta dan haru ini, kami melangkah ke jenjang hidup baru, siap menghadapi masa depan bersama dengan saling cinta dan dukungan satu sama lain."
   }
 ];
