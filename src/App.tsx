@@ -7,6 +7,7 @@ import { OurStory } from './components/OurStory';
 import { EventDetails } from './components/EventDetails';
 import { Gift } from './components/Gift';
 import { RSVP } from './components/RSVP';
+import { Closing } from './components/Closing';
 import { Footer } from './components/Footer';
 import { MusicPlayer, MusicPlayerHandle } from './components/MusicPlayer';
 import { GuestManager } from './components/GuestManager';
@@ -115,6 +116,7 @@ const App: React.FC = () => {
             <EventDetails />
             <Gift />
             <RSVP />
+            <Closing />
             <Footer />
           </div>
         </main>
