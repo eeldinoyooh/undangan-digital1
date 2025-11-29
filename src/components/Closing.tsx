@@ -34,7 +34,7 @@ export const Closing: React.FC = () => {
 
                     <div className="mt-8">
                         <p className="font-script text-4xl md:text-5xl text-[#8B7355] leading-tight">
-                            {weddingConfig.groomNickname} & {weddingConfig.brideNickname}
+                            {weddingConfig.groomName} & {weddingConfig.brideName}
                         </p>
                     </div>
                 </div>
