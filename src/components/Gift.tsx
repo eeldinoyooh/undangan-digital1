@@ -37,7 +37,7 @@ export const Gift: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-6">
           {accounts.map((acc, idx) => (
             <div
               key={idx}
@@ -57,8 +57,8 @@ export const Gift: React.FC = () => {
               <button
                 onClick={() => handleCopy(acc.number, idx)}
                 className={`flex items-center gap-2 px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 w-full justify-center ${copiedIndex === idx
-                    ? 'bg-green-600 text-white'
-                    : 'bg-[#B8A587]/10 text-[#8B7355] hover:bg-[#8B7355] hover:text-white border border-[#B8A587]/30'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-[#B8A587]/10 text-[#8B7355] hover:bg-[#8B7355] hover:text-white border border-[#B8A587]/30'
                   }`}
               >
                 {copiedIndex === idx ? (
