@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
       </div>
       <p className="text-sm text-gray-700 flex items-center justify-center gap-1">
         Created with <Heart size={14} className="text-red-500 fill-current" /> by
-        <span className="text-gray-800 font-semibold">Senior Frontend Dev</span>
+        <span className="text-gray-800 font-semibold">DNZ.Digital</span>
       </p>
     </footer>
   );
