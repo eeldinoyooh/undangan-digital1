@@ -29,6 +29,13 @@ export const RSVP: React.FC = () => {
   ];
 
   const [wishes, setWishes] = useState<Wish[]>(initialWishes);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const wishesPerPage = 6;
+
+  // URL Script Google Apps Anda
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9DKI8wBoW4CUA999cN-AIi7BXMihBKLRR9_b-EXxEeyYa47OFVnUjVyUsJyIzws_4xg/exec';
 
   useEffect(() => {
     const savedWishes = localStorage.getItem('wedding-wishes');
@@ -36,16 +43,6 @@ export const RSVP: React.FC = () => {
       setWishes(JSON.parse(savedWishes));
     }
   }, []);
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // URL Script Google Apps Anda
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9DKI8wBoW4CUA999cN-AIi7BXMihBKLRR9_b-EXxEeyYa47OFVnUjVyUsJyIzws_4xg/exec';
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   // Fetch wishes from Google Sheet on load
   useEffect(() => {
@@ -71,6 +68,10 @@ export const RSVP: React.FC = () => {
 
     fetchWishes();
   }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,6 +113,9 @@ export const RSVP: React.FC = () => {
         message: ''
       });
 
+      // Reset to page 1 after new submission
+      setCurrentPage(1);
+
       alert('Ucapan berhasil dikirim! Terima kasih atas doa restu Anda 🙏');
     } catch (error) {
       console.error('Error:', error);
@@ -119,6 +123,18 @@ export const RSVP: React.FC = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Calculate pagination
+  const totalPages = Math.ceil(wishes.length / wishesPerPage);
+  const indexOfLastWish = currentPage * wishesPerPage;
+  const indexOfFirstWish = indexOfLastWish - wishesPerPage;
+  const currentWishes = wishes.slice(indexOfFirstWish, indexOfLastWish);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    // Scroll to wishes list smoothly
+    document.getElementById('wishes-list')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 
   return (
@@ -201,39 +217,80 @@ export const RSVP: React.FC = () => {
         </div>
 
         {/* Wishes List Section */}
-        <div className="space-y-6" data-aos="fade-up" data-aos-delay="200">
+        <div id="wishes-list" className="space-y-6" data-aos="fade-up" data-aos-delay="200">
           <h3 className="font-script text-3xl text-center text-[#8B7355] mb-6">Doa Restu ({wishes.length})</h3>
 
-          <div className="max-h-[500px] overflow-y-auto space-y-4 px-2 scrollbar-hide">
+          <div className="space-y-4 px-2">
             {isLoading ? (
               <p className="text-center text-gray-500">Memuat ucapan...</p>
             ) : wishes.length === 0 ? (
               <p className="text-center text-gray-700 italic">Belum ada ucapan. Jadilah yang pertama mengirim!</p>
             ) : (
-              wishes.map((wish) => (
-                <div key={wish.id} className="bg-white p-4 rounded-xl shadow-sm border-t-[3px] border-[#8B7355] hover:border-[#B8A587]/20 transition-all">
-                  <div className="flex items-start gap-3">
-                    <div className="bg-[#B8A587]/10 p-2 rounded-full">
-                      <User size={20} className="text-[#8B7355]" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <h4 className="font-semibold text-[#8B7355]">{wish.name}</h4>
-                        <span className={`text-[10px] px-2 py-0.5 rounded-full border ${wish.attendance === 'Hadir' ? 'border-green-800 text-green-500 bg-green-900/20' :
-                          wish.attendance === 'Tidak Hadir' ? 'border-red-800 text-red-500 bg-red-900/20' : 'border-gray-700 text-gray-400 bg-gray-800'
-                          }`}>
-                          {wish.attendance}
-                        </span>
+              <>
+                {currentWishes.map((wish) => (
+                  <div key={wish.id} className="bg-white p-4 rounded-xl shadow-sm border-t-[3px] border-[#8B7355] hover:border-[#B8A587]/20 transition-all">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-[#B8A587]/10 p-2 rounded-full">
+                        <User size={20} className="text-[#8B7355]" />
                       </div>
-                      <div className="flex items-center gap-1 text-xs text-gray-600 mb-2 mt-0.5">
-                        <Clock size={10} />
-                        <span>{wish.date}</span>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start">
+                          <h4 className="font-semibold text-[#8B7355]">{wish.name}</h4>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full border ${wish.attendance === 'Hadir' ? 'border-green-800 text-green-500 bg-green-900/20' :
+                            wish.attendance === 'Tidak Hadir' ? 'border-red-800 text-red-500 bg-red-900/20' : 'border-gray-700 text-gray-400 bg-gray-800'
+                            }`}>
+                            {wish.attendance}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-gray-600 mb-2 mt-0.5">
+                          <Clock size={10} />
+                          <span>{wish.date}</span>
+                        </div>
+                        <p className="text-gray-700 text-sm leading-relaxed">{wish.message}</p>
                       </div>
-                      <p className="text-gray-700 text-sm leading-relaxed">{wish.message}</p>
                     </div>
                   </div>
-                </div>
-              ))
+                ))}
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 mt-6">
+                    {/* Previous Button */}
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="px-3 py-2 rounded-lg bg-white border border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-[#8B7355]"
+                    >
+                      ‹ Prev
+                    </button>
+
+                    {/* Page Numbers */}
+                    <div className="flex gap-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(page)}
+                          className={`w-10 h-10 rounded-lg transition-all ${currentPage === page
+                            ? 'bg-[#8B7355] text-white font-semibold'
+                            : 'bg-white border border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white'
+                            }`}
+                        >
+                          {page}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Next Button */}
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="px-3 py-2 rounded-lg bg-white border border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-[#8B7355]"
+                    >
+                      Next ›
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
