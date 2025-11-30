@@ -55,17 +55,17 @@ export const weddingConfig = {
       address: "Jl. H. Miskin, Campago Ipuh, Kec. Mandiangin Koto Selayan, Kota Bukittinggi, Sumatera Barat 26111",
       theme: "earth"
     },
-    // {
-    //   id: "resepsi",
-    //   badge: "Celebration",
-    //   title: "Resepsi",
-    //   date: "Kamis, 01 Januari 2027",
-    //   time: "11:00 WIB - Selesai",
-    //   timeNote: "Harap hadir tepat waktu",
-    //   location: "Ballroom Hotel Mewah",
-    //   address: "Jl. Kenangan Indah No. 99, Jakarta Selatan",
-    //   theme: "sage"
-    // }
+    {
+      id: "resepsi",
+      badge: "Celebration",
+      title: "Resepsi",
+      date: "MINGGU, 28 DESEMBER 2025",
+      time: "12:00 WIB - Selesai",
+      timeNote: "Harap hadir tepat waktu",
+      location: "RUMAH MEMPELAI WANITA",
+      address: "jalan angkubasa rt/rw 01/01 kelurahan puhun tembok kota bukittinggi ",
+      theme: "sage"
+    }
   ]
 };
 

@@ -39,7 +39,6 @@ export const EventDetails: React.FC = () => {
 
         <div className="flex flex-col justify-center items-center gap-8">
           {weddingConfig.eventDetails
-            .filter(event => event.id === 'akad') // Only show akad event
             .map((event, idx) => {
               const isFirst = idx === 0;
               const theme = themeMap[event.theme as keyof typeof themeMap] ?? themeMap.sage;
@@ -92,7 +91,7 @@ export const EventDetails: React.FC = () => {
         {/* Map Button */}
         <div className="mt-16 text-center" data-aos="fade-up">
           <a
-            href="https://www.google.com/maps/place/Masjid+Jamik+Mandiangin/@-0.2911660651827325,100.37364015678916,17z"
+            href="https://maps.app.goo.gl/aFgrr41g58F7Kbof8"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 bg-[#8B7355] text-white rounded-full hover:bg-[#6B5744] hover:text-white transition-all duration-300 font-semibold tracking-wide group shadow-[0_0_20px_rgba(139,115,85,0.3)]"
